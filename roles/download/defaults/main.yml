@@ -54,9 +54,13 @@ kubeadm_version: "{{ kube_version }}"
 etcd_version: v3.2.18
 
 # gcr and kubernetes image repo define
-gcr_image_repo: "gcr.io"
-
-kube_image_repo: "mirrorgooglecontainers"
+gcr_image_repo: >-
+  {% if local_registry is defined -%}
+  {{ local_registry }}
+  {%- else -%}
+  gcr.azk8s.cn
+  {%- endif %}
+kube_image_repo: "{{ gcr_image_repo }}/google-containers"
 
 # docker image repo define
 # docker_image_repo: "docker.io"
@@ -271,7 +275,7 @@ calico_rr_image_repo: "{{ docker_image_repo }}calico/routereflector"
 calico_rr_image_tag: "{{ calico_rr_version }}"
 calico_typha_image_repo: "{{ docker_image_repo }}calico/typha"
 calico_typha_image_tag: "{{ calico_typha_version }}"
-hyperkube_image_repo: "googlecontainer/hyperkube"
+hyperkube_image_repo: "{{ kube_image_repo }}/hyperkube"
 hyperkube_image_tag: "{{ kube_version }}"
 pod_infra_image_repo: "{{ docker_image_repo }}mirrorgooglecontainers/pause-{{ image_arch }}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
@@ -338,7 +342,7 @@ busybox_image_tag: 1.29.2
 helm_version: "v2.14.3"
 helm_image_repo: "{{ docker_image_repo }}lachlanevenson/k8s-helm"
 helm_image_tag: "{{ helm_version }}"
-tiller_image_repo: "googlecontainer/tiller"
+tiller_image_repo: "{{ gcr_image_repo }}/kubernetes-helm/tiller"
 tiller_image_tag: "{{ helm_version }}"
 
 registry_image_repo: "{{ docker_image_repo }}library/registry"

@@ -41,6 +41,7 @@ docker_rpm_keepcache: 0
 docker_registry_mirrors:
   - https://docker.mirrors.ustc.edu.cn
   - https://registry.docker-cn.com
+  - http://mirror.azure.cn
 #   - https://mirror.aliyuncs.com
 
 ## If non-empty will override default system MounFlags value.
