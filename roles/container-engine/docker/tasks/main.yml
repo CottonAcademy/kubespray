@@ -50,6 +50,12 @@
   tags:
     - facts
 
+- name: check docker-options
+  stat:
+    path: /etc/systemd/system/docker.service.d/docker-options.conf
+  ignore_errors: True
+  register: docker_check
+
 - import_tasks: pre-upgrade.yml
 
 - name: ensure docker-ce repository public key is installed
@@ -63,7 +69,9 @@
   retries: 4
   delay: "{{ retry_stagger | d(3) }}"
   with_items: "{{ docker_repo_key_info.repo_keys }}"
-  when: not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic)
+  when: 
+    - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic)
+    - not docker_check.stat.exists
 
 - name: ensure docker-ce repository is enabled
   action: "{{ docker_repo_info.pkg_repo }}"
@@ -71,8 +79,10 @@
     repo: "{{ item }}"
     state: present
   with_items: "{{ docker_repo_info.repos }}"
-  when: not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic) and (docker_repo_info.repos|length > 0)
-
+  when: 
+    - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic) and (docker_repo_info.repos|length > 0)
+    - not docker_check.stat.exists
+    
 - name: ensure docker-engine repository public key is installed
   action: "{{ dockerproject_repo_key_info.pkg_key }}"
   args:
@@ -87,6 +97,7 @@
   when:
     - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic)
     - use_docker_engine is defined and use_docker_engine
+    - not docker_check.stat.exists
 
 - name: ensure docker-engine repository is enabled
   action: "{{ dockerproject_repo_info.pkg_repo }}"
@@ -102,14 +113,18 @@
   template:
     src: "fedora_docker.repo.j2"
     dest: "{{ yum_repo_dir }}/docker.repo"
-  when: ansible_distribution == "Fedora" and not is_atomic
+  when: 
+    - ansible_distribution == "Fedora" and not is_atomic
+    - not docker_check.stat.exists
 
 - name: Configure docker repository on RedHat/CentOS/Oracle Linux
   template:
     src: "rh_docker.repo.j2"
     dest: "{{ yum_repo_dir }}/docker.repo"
-  when: ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
-
+  when: 
+    - ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
+    - not docker_check.stat.exists
+    
 - name: check if container-selinux is available
   yum:
     list: "container-selinux"
@@ -136,7 +151,9 @@
     src: "{{ yum_conf }}"
     dest: "{{ docker_yum_conf }}"
     remote_src: yes
-  when: ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
+  when: 
+    - ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
+    - not docker_check.stat.exists
 
 - name: Edit copy of yum.conf to set obsoletes=0
   lineinfile:
@@ -144,8 +161,9 @@
     state: present
     regexp: '^obsoletes='
     line: 'obsoletes=0'
-  when: ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
-
+  when: 
+    - ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
+    - not docker_check.stat.exists
 - name: ensure docker packages are installed
   action: "{{ docker_package_info.pkg_mgr }}"
   args:
@@ -160,7 +178,9 @@
   delay: "{{ retry_stagger | d(3) }}"
   with_items: "{{ docker_package_info.pkgs }}"
   notify: restart docker
-  when: not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic) and (docker_package_info.pkgs|length > 0)
+  when: 
+    - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic) and (docker_package_info.pkgs|length > 0)
+    - not docker_check.stat.exists
   ignore_errors: true
 
 - name: Ensure docker packages are installed
@@ -221,6 +241,7 @@
 
 - name: flush handlers so we can wait for docker to come up
   meta: flush_handlers
+  when: not docker_check.stat.exists
 
 - name: set fact for docker_version
   command: "docker version -f '{{ '{{' }}.Client.Version{{ '}}' }}'"
@@ -240,6 +261,12 @@
   loop: "{{ docker_plugins }}"
   loop_control:
     loop_var: docker_plugin
+- name: Install nvidia-docker
+  import_tasks: nvidia-docker.yaml
+  when:
+    - nvidia_accelerator_enabled is defined
+    - nvidia_gpu_nodes is defined 
+    - inventory_hostname in nvidia_gpu_nodes
 
 - name: Set docker systemd config
   import_tasks: systemd.yml
@@ -251,3 +278,10 @@
     state: started
   with_items:
     - docker
+   
+- name: docker login
+  shell: docker login -u guest -p guest dockerhub.qingcloud.com
+  register: result
+  until: result.stdout.find("Succeeded") != -1
+  retries: 5
+  delay: 10

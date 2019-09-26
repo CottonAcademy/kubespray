@@ -6,7 +6,7 @@
   when:
     - ansible_os_family == 'Debian'
     - (docker_versioned_pkg[docker_version | string] is search('docker-ce'))
-
+    - not docker_check.stat.exists
 - name: Ensure old versions of Docker are not installed. | RedHat
   yum:
     name: '{{ docker_remove_packages_yum }}'
@@ -15,3 +15,4 @@
     - ansible_os_family == 'RedHat'
     - (docker_versioned_pkg[docker_version | string] is search('docker-ce'))
     - not is_atomic
+    - not docker_check.stat.exists

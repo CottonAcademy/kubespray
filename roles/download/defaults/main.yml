@@ -15,7 +15,7 @@ download_force_cache: false
 skip_downloads: false
 
 # Optionally skip kubeadm images download
-skip_kubeadm_images: false
+skip_kubeadm_images: True
 kubeadm_images: {}
 
 # if this is set to true will only download files once. Doesn't work
@@ -51,7 +51,7 @@ image_arch: "{{host_architecture | default('amd64')}}"
 # Versions
 kube_version: v1.15.3
 kubeadm_version: "{{ kube_version }}"
-etcd_version: v3.3.10
+etcd_version: v3.2.18
 
 # gcr and kubernetes image repo define
 gcr_image_repo: "gcr.io"
@@ -88,26 +88,13 @@ multus_version: "v3.2.1"
 crictl_version: "v1.15.0"
 
 # Download URLs
-kubeadm_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
-hyperkube_download_url: "https://storage.googleapis.com/kubernetes-release/release/{{ kube_version }}/bin/linux/{{ image_arch }}/hyperkube"
+kubeadm_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
+hyperkube_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/hyperkube"
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
-cni_download_url: "https://github.com/containernetworking/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
-calicoctl_download_url: "https://github.com/projectcalico/calicoctl/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
-crictl_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
-
-crictl_checksums:
-  arm:
-    v1.15.0: f31f8c3b4791608a48d030d1aa1a694a73849ae057b23a90ce4ef17e5afde9e8
-    v1.14.0: 9910cecfd6558239ba015323066c7233d8371af359b9ddd0b2a35d5223bcf945
-    v1.13.0: 2e478ebed85f9d70d49fd8f1d1089c8fba6e37d3461aeef91813f1ab0f0df586
-  arm64:
-    v1.15.0: 785c3da7e058f6fd00b0a48de24b9199eb6bae940d13f509c44ea6dd7ad9ffcd
-    v1.14.0: f76b3d00a272c8d210e9a45f77d07d3770bee310d99c4fd9a72d6f55278882e5
-    v1.13.0: 68949c0cb5a37e7604c145d189cf1e109c08c93d9c710ba663db026b9c6f2746
-  amd64:
-    v1.15.0: c3b71be1f363e16078b51334967348aab4f72f46ef64a61fe7754e029779d45a
-    v1.14.0: 483c90a9fe679590df4332ba807991c49232e8cd326c307c575ecef7fe22327b
-    v1.13.0: 9bdbea7a2b382494aff2ff014da328a042c5aba9096a7772e57fdf487e5a1d51
+cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases/{{ cni_version }}/cni-plugins-{{ image_arch }}-{{ cni_version }}.tgz"
+helm_download_url: "https://kubernetes-helm.pek3b.qingstor.com/linux-amd64/{{ helm_version }}/helm"
+#helm_download_url: "https://helm-back.gd2.qingstor.com/linux-amd64/{{ helm_version }}/helm"
+istioctl_download_url: https://kubernetes-istio.pek3b.qingstor.com/1.1.1/bin/istioctl
 
 # Checksums
 hyperkube_checksums:
@@ -249,6 +236,8 @@ calico_rr_image_repo: "{{ docker_image_repo }}/calico/routereflector"
 calico_rr_image_tag: "{{ calico_rr_version }}"
 calico_typha_image_repo: "{{ docker_image_repo }}/calico/typha"
 calico_typha_image_tag: "{{ calico_typha_version }}"
+hyperkube_image_repo: "{{ kube_image_repo }}/hyperkube"
+hyperkube_image_tag: "{{ kube_version }}"
 pod_infra_image_repo: "{{ gcr_image_repo }}/google_containers/pause-{{ image_arch }}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
 install_socat_image_repo: "{{ docker_image_repo }}/xueshanf/install-socat"

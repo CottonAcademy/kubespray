@@ -18,7 +18,7 @@ kube_version: v1.15.3
 kube_version_min_required: v1.14.0
 
 # use HyperKube image to control plane containers
-kubeadm_use_hyperkube_image: False
+kubeadm_use_hyperkube_image: True
 
 ## Kube Proxy mode One of ['iptables','ipvs']
 kube_proxy_mode: ipvs
@@ -69,7 +69,7 @@ ndots: 2
 dns_mode: coredns
 
 # Enable nodelocal dns cache
-enable_nodelocaldns: true
+enable_nodelocaldns: false
 nodelocaldns_ip: 169.254.25.10
 nodelocaldns_health_port: 9254
 
@@ -288,10 +288,10 @@ k8s_image_pull_policy: IfNotPresent
 
 # Kubernetes dashboard
 # RBAC required. see docs/getting-started.md for access details.
-dashboard_enabled: true
+dashboard_enabled: false
 
 # Addons which can be enabled
-helm_enabled: false
+helm_enabled: true
 registry_enabled: false
 metrics_server_enabled: false
 enable_network_policy: true

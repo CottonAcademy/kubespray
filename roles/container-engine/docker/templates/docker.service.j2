@@ -24,6 +24,10 @@ ExecStart={{ docker_bin_dir }}/docker{% if installed_docker_version.stdout is ve
 {% if ansible_os_family == "Suse" %}
           --add-runtime oci=/usr/sbin/docker-runc \
 {% endif %}
+{% if  nvidia_gpu_nodes is defined and inventory_hostname in nvidia_gpu_nodes %}
+          --add-runtime nvidia=/usr/bin/nvidia-container-runtime \
+          --default-runtime nvidia  \
+{% endif %}
           $DOCKER_OPTS \
           $DOCKER_STORAGE_OPTIONS \
           $DOCKER_NETWORK_OPTIONS \
