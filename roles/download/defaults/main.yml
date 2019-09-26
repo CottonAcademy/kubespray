@@ -103,17 +103,33 @@ kube_router_version: "v0.2.5"
 multus_version: "v3.2.1"
 
 crictl_version: "v1.15.0"
-
+istio_version: 1.1.1
 # Download URLs
 kubeadm_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
 hyperkube_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/hyperkube"
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
-cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases/{{ cni_version }}/cni-plugins-{{ image_arch }}-{{ cni_version }}.tgz"
+cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases//download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
 helm_download_url: "https://kubernetes-helm.pek3b.qingstor.com/linux-amd64/{{ helm_version }}/helm"
-#helm_download_url: "https://helm-back.gd2.qingstor.com/linux-amd64/{{ helm_version }}/helm"
 istioctl_download_url: https://kubernetes-istio.pek3b.qingstor.com/1.1.1/bin/istioctl
+crictl_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
+calicoctl_download_url: "https://projectcalico.pek3b.qingstor.com/calicoctl/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
 
 # Checksums
+
+crictl_checksums:
+  arm:
+    v1.15.0: f31f8c3b4791608a48d030d1aa1a694a73849ae057b23a90ce4ef17e5afde9e8
+    v1.14.0: 9910cecfd6558239ba015323066c7233d8371af359b9ddd0b2a35d5223bcf945
+    v1.13.0: 2e478ebed85f9d70d49fd8f1d1089c8fba6e37d3461aeef91813f1ab0f0df586
+  arm64:
+    v1.15.0: 785c3da7e058f6fd00b0a48de24b9199eb6bae940d13f509c44ea6dd7ad9ffcd
+    v1.14.0: f76b3d00a272c8d210e9a45f77d07d3770bee310d99c4fd9a72d6f55278882e5
+    v1.13.0: 68949c0cb5a37e7604c145d189cf1e109c08c93d9c710ba663db026b9c6f2746
+  amd64:
+    v1.15.0: c3b71be1f363e16078b51334967348aab4f72f46ef64a61fe7754e029779d45a
+    v1.14.0: 483c90a9fe679590df4332ba807991c49232e8cd326c307c575ecef7fe22327b
+    v1.13.0: 9bdbea7a2b382494aff2ff014da328a042c5aba9096a7772e57fdf487e5a1d51
+
 hyperkube_checksums:
   arm:
     v1.16.0-beta.2: 2b64ef9e8e2f92b72352cc7ab95b416407f4fca9ed1a5020aeeb6a3777bd16ed
@@ -228,6 +244,8 @@ hyperkube_binary_checksum: "{{ hyperkube_checksums[image_arch][kube_version] }}"
 kubeadm_binary_checksum: "{{ kubeadm_checksums[image_arch][kubeadm_version] }}"
 calicoctl_binary_checksum: "{{ calicoctl_binary_checksums[image_arch][calico_ctl_version] }}"
 crictl_binary_checksum: "{{ crictl_checksums[image_arch][crictl_version] }}"
+istioctl_binary_checksum: 1ee0e3e320d2fd67eba4905d826c0ff47121d0249b954dcea1d69674148ebe63
+helm_binary_checksum: 4f15f75cd2dc46c13359968d2078ac3df14d431607a6798743d6feb462f4b9a3
 
 # Containers
 # In some cases, we need a way to set --registry-mirror or --insecure-registry for docker,
@@ -253,7 +271,7 @@ calico_rr_image_repo: "{{ docker_image_repo }}calico/routereflector"
 calico_rr_image_tag: "{{ calico_rr_version }}"
 calico_typha_image_repo: "{{ docker_image_repo }}calico/typha"
 calico_typha_image_tag: "{{ calico_typha_version }}"
-hyperkube_image_repo: "{{ kube_image_repo }}/hyperkube"
+hyperkube_image_repo: "googlecontainer/hyperkube"
 hyperkube_image_tag: "{{ kube_version }}"
 pod_infra_image_repo: "{{ docker_image_repo }}mirrorgooglecontainers/pause-{{ image_arch }}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
@@ -307,7 +325,7 @@ coredns_image_repo: "{{ docker_image_repo }}coredns/coredns"
 coredns_image_tag: "{{ coredns_version }}"
 
 nodelocaldns_version: "1.15.5"
-nodelocaldns_image_repo: "{{ kube_image_repo }}/k8s-dns-node-cache"
+nodelocaldns_image_repo: "{{ docker_image_repo }}mirrorgooglecontainers/k8s-dns-node-cache"
 nodelocaldns_image_tag: "{{ nodelocaldns_version }}"
 
 dnsautoscaler_version: 1.6.0
@@ -320,7 +338,7 @@ busybox_image_tag: 1.29.2
 helm_version: "v2.14.3"
 helm_image_repo: "{{ docker_image_repo }}lachlanevenson/k8s-helm"
 helm_image_tag: "{{ helm_version }}"
-tiller_image_repo: "{{ gcr_image_repo }}/kubernetes-helm/tiller"
+tiller_image_repo: "googlecontainer/tiller"
 tiller_image_tag: "{{ helm_version }}"
 
 registry_image_repo: "{{ docker_image_repo }}library/registry"
@@ -416,6 +434,15 @@ downloads:
     groups:
       - k8s-cluster
 
+  hyperkube:
+    enabled: true
+    container: true
+    repo: "{{ hyperkube_image_repo }}"
+    tag: "{{ hyperkube_image_tag }}"
+    sha256: "{{ hyperkube_digest_checksum|default(None) }}"
+    groups:
+      - k8s-cluster
+
   hyperkube_file:
     enabled: true
     file: true
@@ -437,6 +464,19 @@ downloads:
     sha256: "{{ crictl_binary_checksum }}"
     url: "{{ crictl_download_url }}"
     unarchive: true
+    owner: "root"
+    mode: "0755"
+    groups:
+      - k8s-cluster
+
+  istioctl:
+    enabled: true
+    file: true
+    version: "{{ istio_version }}"
+    dest: "{{local_release_dir}}/istioctl"
+    sha256: "{{ istioctl_binary_checksum }}"
+    url: "{{ istioctl_download_url }}"
+    unarchive: false
     owner: "root"
     mode: "0755"
     groups:
@@ -725,12 +765,20 @@ downloads:
 
   helm:
     enabled: "{{ helm_enabled }}"
-    container: true
+    container: "{{ helm_deployment_type != 'host' }}"
+    file: "{{ helm_deployment_type == 'host' }}"
     repo: "{{ helm_image_repo }}"
     tag: "{{ helm_image_tag }}"
-    sha256: "{{ helm_digest_checksum|default(None) }}"
+    sha256: "{{ helm_binary_checksum|default(None) }}"
+    version: "{{ helm_version }}"
+    dest: "{{local_release_dir}}/helm"
+    source_url: "{{ helm_download_url }}"
+    url: "{{ helm_download_url }}"
+    unarchive: false
+    owner: "root"
+    mode: "0755"
     groups:
-      - kube-node
+      - kube-master
 
   tiller:
     enabled: "{{ helm_enabled }}"
