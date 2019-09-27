@@ -25,7 +25,7 @@
 
 - name: Nvidia-Docker |ensure nvidia-container-runtime are installed
   apt:
-    name: nvidia-container-runtime=2.0.0+docker18.06.2-1
+    name: nvidia-container-runtime=2.0.0+docker18.09.7-3
     update_cache: yes
   register: result
   until: result | succeeded
@@ -35,7 +35,7 @@
 
 - name: Nvidia-Docker |ensure nvidia-docker are installed
   apt:
-    name: nvidia-docker2=2.0.3+docker18.06.2-1
+    name: nvidia-docker2=2.0.3+docker18.09.7-3
     update_cache: yes
   register: result
   until: result | succeeded
