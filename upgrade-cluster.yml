@@ -68,7 +68,7 @@
   serial: 1
   roles:
     - { role: kubespray-defaults}
-    - { role: upgrade/pre-upgrade, tags: pre-upgrade }
+ #   - { role: upgrade/pre-upgrade, tags: pre-upgrade }
     - { role: kubernetes/node, tags: node }
     - { role: kubernetes/master, tags: master, upgrade_cluster_setup: true }
     - { role: kubernetes/client, tags: client }
@@ -92,7 +92,7 @@
   serial: "{{ serial | default('20%') }}"
   roles:
     - { role: kubespray-defaults}
-    - { role: upgrade/pre-upgrade, tags: pre-upgrade }
+ #   - { role: upgrade/pre-upgrade, tags: pre-upgrade }
     - { role: kubernetes/node, tags: node }
     - { role: kubernetes/kubeadm, tags: kubeadm }
     - { role: upgrade/post-upgrade, tags: post-upgrade }
