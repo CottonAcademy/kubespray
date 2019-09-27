@@ -454,7 +454,7 @@ kube_apiserver_endpoint: |-
   {%- elif not is_kube_master and loadbalancer_apiserver_localhost -%}
        https://localhost:{{ loadbalancer_apiserver_port|default(kube_apiserver_port) }}
   {%- elif is_kube_master -%}
-       https://{{ kube_apiserver_bind_address | regex_replace('0\.0\.0\.0','127.0.0.1') }}:{{ kube_apiserver_port }}
+       https://{{ first_kube_master }}:{{ kube_apiserver_port }}
   {%- else -%}
        https://{{ first_kube_master }}:{{ kube_apiserver_port }}
   {%- endif %}
@@ -463,6 +463,8 @@ kube_apiserver_insecure_endpoint: >-
 kube_apiserver_client_cert: "{{ kube_cert_dir }}/ca.crt"
 kube_apiserver_client_key: "{{ kube_cert_dir }}/ca.key"
 
+
+# https://{{ kube_apiserver_bind_address | regex_replace('0\.0\.0\.0','127.0.0.1') }}:{{ kube_apiserver_port }}
 # Set to true to deploy etcd-events cluster
 etcd_events_cluster_enabled: false
 
