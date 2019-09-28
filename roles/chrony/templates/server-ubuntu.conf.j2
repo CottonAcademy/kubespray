@@ -1,6 +1,6 @@
 # Use public servers from the pool.ntp.org project.
 
-server {{ groups['kube-master'][0] }} iburst
+server {{ first_kube_master }} iburst
 pool 2.debian.pool.ntp.org iburst
 
 # Look here for the admin password needed for chronyc.  The initial
