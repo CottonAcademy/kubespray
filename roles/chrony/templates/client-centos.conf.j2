@@ -1,5 +1,5 @@
 # Use public servers from the pool.ntp.org project.
-server {{ groups['kube-master'][0] }} iburst
+server {{ first_kube_master }} iburst
 
 # Ignor source level
 stratumweight 0
