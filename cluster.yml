@@ -29,6 +29,7 @@
 - hosts: k8s-cluster:etcd
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
   roles:
+    - { role: chrony}
     - { role: kubespray-defaults}
     - { role: kubernetes/preinstall, tags: preinstall }
     - { role: "container-engine", tags: "container-engine", when: deploy_container_engine|default(true) }
