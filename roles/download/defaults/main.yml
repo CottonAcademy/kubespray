@@ -49,7 +49,7 @@ download_delegate: "{% if download_localhost %}localhost{% else %}{{ groups['kub
 image_arch: "{{host_architecture | default('amd64')}}"
 
 # Versions
-kube_version: v1.15.3
+kube_version: v1.15.4
 kubeadm_version: "{{ kube_version }}"
 etcd_version: v3.2.18
 
@@ -163,6 +163,7 @@ hyperkube_checksums:
     v1.14.0: 708e00a41f6516d525dee00c91ebe3c3bf2feaf9b7f0af7689487e3e17e356c2
   amd64:
     v1.16.0-beta.2: 2f05aba15c163883a610681a563d89fd7adf10cb70b90cdb6760f00f8d023a4b
+    v1.15.4: 7b8d6a151cde98a22c4fbc9d93e2fe29a13fc1a3d97d84904682488fc34453f1
     v1.15.3: 3685c65b4fb85d552f77346900affc2e9a1bc997b4cd3dde0e705fd8c1d9be7a
     v1.15.2: ab885606438748eb89a7738e219f5353d94c40c63a4935a539ce89760280f065
     v1.15.1: 22b7b1e7f5f2a452d62e0ca4c2cba67119c51e04219aaeaf8452825f9177069e
@@ -203,6 +204,7 @@ kubeadm_checksums:
     v1.14.0: 7ed9d706e50cd6d3fc618a7af3d19b691b8a5343ddedaeccb4ea09af3ecfae2c
   amd64:
     v1.16.0-beta.2: bba224360cfb4e6471f84523fcc954951c05c0fef0a4311a07e76f306cadebf1
+    v1.15.4: 3acf748ec5d69f316da85fb1e75945afb028f1e207ecb0b5986e23932c040194
     v1.15.3: ec56a00bc8d9ec4ac2b081a3b2127d8593daf3b2c86560cf9e6cba5ada2d5a80
     v1.15.2: fe2a13a1dea73249560ea44ab54c0359a9722e9c66832f6bcad86798438cba2f
     v1.15.1: 3d42441ae177826f1181e559cd2a729464ca8efadef196cfa0e8053a615333b5
