@@ -261,6 +261,7 @@
   loop: "{{ docker_plugins }}"
   loop_control:
     loop_var: docker_plugin
+
 - name: Install nvidia-docker
   import_tasks: nvidia-docker.yaml
   when:
