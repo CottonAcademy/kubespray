@@ -345,7 +345,12 @@ feature_gate_v1_11:
   - "MountPropagation={{ local_volume_provisioner_enabled | string }}"
 
 ## v1.12 feature
-feature_gate_v1_12: []
+feature_gate_v1_12:
+  - "CSINodeInfo=true"
+  - "KubeletPluginsWatcher=true"
+  - "VolumeSnapshotDataSource=true"
+  - "ExpandCSIVolumes=true"
+  - "VolumePVCDataSource=true"
 
 ## List of key=value pairs that describe feature gates for
 ## the k8s cluster.
