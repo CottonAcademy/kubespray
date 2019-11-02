@@ -19,24 +19,24 @@
     - { role: kubespray-defaults}
     - { role: bastion-ssh-config, tags: ["localhost", "bastion"]}
 
-- hosts: k8s-cluster:etcd:calico-rr
-  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  gather_facts: false
-  vars:
-    # Need to disable pipelining for bootstrap-os as some systems have requiretty in sudoers set, which makes pipelining
-    # fail. bootstrap-os fixes this on these systems, so in later plays it can be enabled.
-    ansible_ssh_pipelining: false
-  roles:
-    - { role: kubespray-defaults}
-    - { role: bootstrap-os, tags: bootstrap-os}
+#- hosts: k8s-cluster:etcd:calico-rr
+#  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+#  gather_facts: false
+#  vars:
+#    # Need to disable pipelining for bootstrap-os as some systems have requiretty in sudoers set, which makes pipelining
+#    # fail. bootstrap-os fixes this on these systems, so in later plays it can be enabled.
+#    ansible_ssh_pipelining: false
+#  roles:
+#    - { role: kubespray-defaults}
+#    - { role: bootstrap-os, tags: bootstrap-os}
 
 - hosts: k8s-cluster:etcd:calico-rr
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  serial: "{{ serial | default('20%') }}"
+  serial: "{{ serial | default('50%') }}"
   roles:
     - { role: kubespray-defaults}
     - { role: kubernetes/preinstall, tags: preinstall }
-    - { role: container-engine, tags: "container-engine", when: deploy_container_engine|default(true) }
+#   - { role: container-engine, tags: "container-engine", when: deploy_container_engine|default(true) }
     - { role: download, tags: download, when: "not skip_downloads" }
   environment: "{{ proxy_env }}"
 
@@ -79,7 +79,7 @@
 - name: Upgrade calico on all masters and nodes
   hosts: kube-master:kube-node
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  serial: "{{ serial | default('20%') }}"
+  serial: "{{ serial | default('25%') }}"
   roles:
     - { role: kubespray-defaults}
     - { role: network_plugin, tags: network }
@@ -89,7 +89,7 @@
 - name: Finally handle worker upgrades, based on given batch size
   hosts: kube-node:!kube-master
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  serial: "{{ serial | default('20%') }}"
+  serial: "{{ serial | default('25%') }}"
   roles:
     - { role: kubespray-defaults}
  #   - { role: upgrade/pre-upgrade, tags: pre-upgrade }
@@ -105,12 +105,12 @@
     - { role: kubernetes-apps/rotate_tokens, tags: rotate_tokens, when: "secret_changed|default(false)" }
     - { role: win_nodes/kubernetes_patch, tags: ["master", "win_nodes"]}
 
-- hosts: calico-rr
-  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
-  roles:
-    - { role: kubespray-defaults}
-    - { role: network_plugin/calico/rr, tags: network }
-  environment: "{{ proxy_env }}"
+#- hosts: calico-rr
+#  any_errors_fatal: "{{ any_errors_fatal | default(true) }}"
+#  roles:
+#    - { role: kubespray-defaults}
+#    - { role: network_plugin/calico/rr, tags: network }
+#  environment: "{{ proxy_env }}"
 
 - hosts: kube-master
   any_errors_fatal: "{{ any_errors_fatal | default(true) }}"

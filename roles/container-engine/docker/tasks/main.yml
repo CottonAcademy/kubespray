@@ -108,6 +108,7 @@
   when:
     - use_docker_engine is defined and use_docker_engine
     - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "RedHat", "Suse", "ClearLinux"] or is_atomic) and (dockerproject_repo_info.repos|length > 0)
+    - not docker_check.stat.exists
 
 - name: Configure docker repository on Fedora
   template:
@@ -129,7 +130,9 @@
   yum:
     list: "container-selinux"
   register: yum_result
-  when: ansible_distribution in ["CentOS","RedHat"] and not is_atomic
+  when:
+    - ansible_distribution in ["CentOS","RedHat"] and not is_atomic
+    - not docker_check.stat.exists
 
 - name: Configure extras repository on RedHat/CentOS if container-selinux is not available in current repos
   yum_repository:
@@ -145,6 +148,7 @@
   when:
     - ansible_distribution in ["CentOS","RedHat"] and not is_atomic
     - yum_result.results | length == 0
+    - not docker_check.stat.exists
 
 - name: Copy yum.conf for editing
   copy:
@@ -164,6 +168,7 @@
   when: 
     - ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
     - not docker_check.stat.exists
+
 - name: ensure docker packages are installed
   action: "{{ docker_package_info.pkg_mgr }}"
   args:
@@ -195,7 +200,9 @@
   delay: "{{ retry_stagger | d(3) }}"
   notify: restart docker
   ignore_errors: true
-  when: ansible_os_family in ["ClearLinux"]
+  when:
+    - ansible_os_family in ["ClearLinux"]
+    - not docker_check.stat.exists
 
 - name: get available packages on Ubuntu
   command: apt-cache policy docker-ce
