@@ -350,7 +350,7 @@ feature_gate_v1_12:
   - "KubeletPluginsWatcher=true"
   - "VolumeSnapshotDataSource=true"
   - "ExpandCSIVolumes=true"
-  - "VolumePVCDataSource=true"
+#  - "VolumePVCDataSource=true"
 
 ## List of key=value pairs that describe feature gates for
 ## the k8s cluster.
