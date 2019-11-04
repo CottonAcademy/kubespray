@@ -328,14 +328,14 @@ nginx_image_repo: "{{ docker_image_repo }}library/nginx"
 nginx_image_tag: 1.15
 
 haproxy_image_repo: "{{ docker_image_repo }}library/haproxy"
-haproxy_image_tag: 1.9
+haproxy_image_tag: 2.0.4
 
 coredns_version: "1.6.0"
 coredns_image_repo: "{{ docker_image_repo }}coredns/coredns"
 coredns_image_tag: "{{ coredns_version }}"
 
 nodelocaldns_version: "1.15.5"
-nodelocaldns_image_repo: "{{ docker_image_repo }}mirrorgooglecontainers/k8s-dns-node-cache"
+nodelocaldns_image_repo: "{{ kube_image_repo }}/k8s-dns-node-cache"
 nodelocaldns_image_tag: "{{ nodelocaldns_version }}"
 
 dnsautoscaler_version: 1.6.0
