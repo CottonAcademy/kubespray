@@ -147,8 +147,8 @@
     proxy: " {{ http_proxy | default('_none_') }}"
   when:
     - ansible_distribution in ["CentOS","RedHat"] and not is_atomic
-    - yum_result.results | length == 0
     - not docker_check.stat.exists
+    - yum_result.results | length == 0
 
 - name: Copy yum.conf for editing
   copy:
