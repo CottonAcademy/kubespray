@@ -70,12 +70,12 @@
       when:
         - not download_always_pull
 
-    - debug:
-        msg: "{{ image_reponame }} Pull required is: {{ pull_required }}"
+#    - debug:
+#        msg: "{{ image_reponame }} Pull required is: {{ pull_required }}"
 
     # NOTE: Pre-loading docker images will not prevent 'docker pull' from re-downloading the layers in that image
     # if a pull is forced. This is a known issue with docker. See https://github.com/moby/moby/issues/23684
-    - name: download_container | Download image if required
+    - name: download_container | Download image if required ( {{ image_reponame }} )
       command: "{{ image_pull_command }} {{ image_reponame }}"
       delegate_to: "{{ download_delegate if download_run_once or inventory_hostname }}"
       delegate_facts: yes
