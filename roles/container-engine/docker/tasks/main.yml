@@ -275,6 +275,7 @@
     - nvidia_accelerator_enabled is defined
     - nvidia_gpu_nodes is defined 
     - inventory_hostname in nvidia_gpu_nodes
+    - ansible_distribution == 'Ubuntu'
 
 - name: Set docker systemd config
   import_tasks: systemd.yml
