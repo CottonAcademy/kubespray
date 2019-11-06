@@ -242,7 +242,7 @@
       with_items:
         - /etc/systemd/system/docker.service.d/http-proxy.conf
         - /etc/systemd/system/docker.service.d/docker-options.conf
-        - /etc/systemd/system/docker.service.d/docker-dns.conf
+#        - /etc/systemd/system/docker.service.d/docker-dns.conf
         - /etc/systemd/system/docker.service.d/docker-orphan-cleanup.conf
       notify: restart docker
 
