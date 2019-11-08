@@ -254,7 +254,7 @@ hyperkube_binary_checksum: "{{ hyperkube_checksums[image_arch][kube_version] }}"
 kubeadm_binary_checksum: "{{ kubeadm_checksums[image_arch][kubeadm_version] }}"
 calicoctl_binary_checksum: "{{ calicoctl_binary_checksums[image_arch][calico_ctl_version] }}"
 crictl_binary_checksum: "{{ crictl_checksums[image_arch][crictl_version] }}"
-istioctl_binary_checksum: 1ee0e3e320d2fd67eba4905d826c0ff47121d0249b954dcea1d69674148ebe63
+istioctl_binary_checksum: ede2905baf31ddbb9e0cce00122c19d9adc0db6ae9961a8625291119f0cf7486
 helm_binary_checksum: 4f15f75cd2dc46c13359968d2078ac3df14d431607a6798743d6feb462f4b9a3
 
 # Containers
