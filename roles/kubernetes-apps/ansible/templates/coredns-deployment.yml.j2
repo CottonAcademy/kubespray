@@ -36,18 +36,11 @@ spec:
           operator: "Exists"
       affinity:
         podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAffinityTerm:
-              topologyKey: kubernetes.io/hostname
-              labelSelector:
-                matchExpressions:
-                - key: k8s-app
-                  operator: In
-                  values:
-                  - kube-dns{{ coredns_ordinal_suffix }}
-              namespaces:
-              - kube-system
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - topologyKey: "kubernetes.io/hostname"
+            labelSelector:
+              matchLabels:
+                k8s-app: kube-dns{{ coredns_ordinal_suffix }}
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
