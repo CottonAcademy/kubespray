@@ -114,7 +114,7 @@ hyperkube_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
 cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
 helm_download_url: "https://kubernetes-helm.pek3b.qingstor.com/linux-amd64/{{ helm_version }}/helm"
-istioctl_download_url: https://kubernetes-istio.pek3b.qingstor.com/1.1.1/bin/istioctl
+istioctl_download_url: "https://kubernetes-istio.pek3b.qingstor.com/{{ istio_version }}/bin/istioctl"
 crictl_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
 calicoctl_download_url: "https://projectcalico.pek3b.qingstor.com/calicoctl/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
 
