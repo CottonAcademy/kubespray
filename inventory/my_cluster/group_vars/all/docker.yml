@@ -38,11 +38,11 @@ docker_rpm_keepcache: 0
 #   - 172.19.16.11
 
 ## Add other registry,example China registry mirror.
-docker_registry_mirrors:
-  - https://docker.mirrors.ustc.edu.cn
-  - https://registry.docker-cn.com
-  - http://mirror.azure.cn
-#   - https://mirror.aliyuncs.com
+#docker_registry_mirrors:
+#  - https://docker.mirrors.ustc.edu.cn
+#  - https://registry.docker-cn.com
+#  - http://mirror.azure.cn
+#  - https://mirror.aliyuncs.com
 
 ## If non-empty will override default system MounFlags value.
 ## This option takes a mount propagation flag: shared, slave
