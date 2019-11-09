@@ -8,7 +8,7 @@
   yum:
     name: ntp
     state: absent
-  when: 'ansible_distribution in ["CentOS","RedHat","Amazon"]'
+  when: 'ansible_distribution in ["CentOS","RedHat"]'
   args:
       warn: false
   ignore_errors: true 
@@ -27,7 +27,7 @@
 - block:
   - name: conf chrony server 
     template: src=server-centos.conf.j2 dest=/etc/chrony.conf
-    when: 'ansible_distribution in ["CentOS","RedHat","Amazon"]' 
+    when: 'ansible_distribution in ["CentOS","RedHat"]' 
 
   - name: conf chrony server
     template: src=server-ubuntu.conf.j2 dest=/etc/chrony/chrony.conf
@@ -35,7 +35,7 @@
 
   - name: start chrony server
     service: name=chronyd state=restarted enabled=yes
-    when: 'ansible_distribution in ["CentOS","RedHat","Amazon"]' 
+    when: 'ansible_distribution in ["CentOS","RedHat"]' 
 
   - name: start chrony server
     service: name=chrony state=restarted enabled=yes
@@ -45,7 +45,7 @@
 - block:
   - name: conf chrony client
     template: src=client-centos.conf.j2 dest=/etc/chrony.conf
-    when: 'ansible_distribution in ["CentOS","RedHat","Amazon"]' 
+    when: 'ansible_distribution in ["CentOS","RedHat"]' 
 
   - name: conf chrony client
     template: src=client-ubuntu.conf.j2 dest=/etc/chrony/chrony.conf
@@ -53,7 +53,7 @@
 
   - name: restart chrony client 
     service: name=chronyd state=restarted enabled=yes
-    when: 'ansible_distribution in ["CentOS","RedHat","Amazon"]' 
+    when: 'ansible_distribution in ["CentOS","RedHat"]' 
 
   - name: start chrony client
     service: name=chrony state=restarted enabled=yes
