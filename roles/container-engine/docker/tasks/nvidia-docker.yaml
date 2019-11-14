@@ -1,21 +1,21 @@
 ---
 
-- name: Nvidia-Docker | ensure nvidia-docker repository public key is installed
-  shell: "curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -"
-  register: result
-  until: result | succeeded
-  retries: 5
-  delay: 5
-  # when: inventory_hostname in nvidia_gpu_nodes
-
-- name: Nvidia-Docker |ensure nvidia-docker repository is enabled
-  shell: >
-    curl -s -L https://nvidia.github.io/nvidia-docker/$(. /etc/os-release;echo $ID$VERSION_ID)/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
-  register: result
-  until: result | succeeded
-  retries: 5
-  delay: 5
-  # when: inventory_hostname in nvidia_gpu_nodes
+#- name: Nvidia-Docker | ensure nvidia-docker repository public key is installed
+#  shell: "curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add -"
+#  register: result
+#  until: result | succeeded
+#  retries: 5
+#  delay: 5
+#  # when: inventory_hostname in nvidia_gpu_nodes
+#
+#- name: Nvidia-Docker |ensure nvidia-docker repository is enabled
+#  shell: >
+#    curl -s -L https://nvidia.github.io/nvidia-docker/$(. /etc/os-release;echo $ID$VERSION_ID)/nvidia-docker.list | sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+#  register: result
+#  until: result | succeeded
+#  retries: 5
+#  delay: 5
+#  # when: inventory_hostname in nvidia_gpu_nodes
 
 - name: Nvidia-Docker |ensure docker is stopped
   service:
