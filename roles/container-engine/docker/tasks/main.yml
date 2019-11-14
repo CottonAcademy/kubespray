@@ -287,10 +287,3 @@
     state: started
   with_items:
     - docker
-   
-- name: docker login
-  shell: docker login -u guest -p guest dockerhub.qingcloud.com
-  register: result
-  until: result.stdout.find("Succeeded") != -1
-  retries: 5
-  delay: 10
