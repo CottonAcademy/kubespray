@@ -11,6 +11,7 @@ keyfile /etc/chrony/chrony.keys
 # I moved the driftfile to /var/lib/chrony to comply with the Debian
 # filesystem standard.
 driftfile /var/lib/chrony/chrony.drift
+makestep 1.0 3
 
 # Comment this line out to turn off logging.
 #log tracking measurements statistics
