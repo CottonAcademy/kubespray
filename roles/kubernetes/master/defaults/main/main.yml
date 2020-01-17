@@ -141,7 +141,8 @@ kubelet_preferred_address_types: 'InternalDNS,InternalIP,Hostname,ExternalDNS,Ex
 
 ## Extra args for k8s components passing by kubeadm
 kube_kubeadm_apiserver_extra_args: {}
-kube_kubeadm_controller_extra_args: {}
+kube_kubeadm_controller_extra_args:
+  - experimental-cluster-signing-duration: true
 kube_kubeadm_scheduler_extra_args: {}
 
 ## Extra control plane host volume mounts
