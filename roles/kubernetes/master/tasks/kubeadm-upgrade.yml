@@ -21,6 +21,7 @@
     upgrade apply -y {{ kube_version }}
     --config={{ kube_config_dir }}/kubeadm-config.yaml
     --ignore-preflight-errors=all
+    --certificate-renewal=true
     --allow-experimental-upgrades
     --allow-release-candidate-upgrades
     --etcd-upgrade=false
@@ -62,6 +63,7 @@
     upgrade apply -y {{ kube_version }}
     --config={{ kube_config_dir }}/kubeadm-config.yaml
     --ignore-preflight-errors=all
+    --certificate-renewal=true
     --allow-experimental-upgrades
     --allow-release-candidate-upgrades
     --etcd-upgrade=false
@@ -100,6 +102,7 @@
     upgrade apply -y {{ kube_version }}
     --config={{ kube_config_dir }}/kubeadm-config.yaml
     --ignore-preflight-errors=all
+    --certificate-renewal=true
     --allow-experimental-upgrades
     --allow-release-candidate-upgrades
     --etcd-upgrade=false
@@ -142,6 +145,7 @@
     upgrade apply -y {{ kube_version }}
     --config={{ kube_config_dir }}/kubeadm-config.yaml
     --ignore-preflight-errors=all
+    --certificate-renewal=true
     --allow-experimental-upgrades
     --allow-release-candidate-upgrades
     --etcd-upgrade=false
