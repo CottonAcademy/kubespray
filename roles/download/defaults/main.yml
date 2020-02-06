@@ -259,7 +259,7 @@ kubeadm_binary_checksum: "{{ kubeadm_checksums[image_arch][kubeadm_version] }}"
 calicoctl_binary_checksum: "{{ calicoctl_binary_checksums[image_arch][calico_ctl_version] }}"
 crictl_binary_checksum: "{{ crictl_checksums[image_arch][crictl_version] }}"
 istioctl_binary_checksum: ede2905baf31ddbb9e0cce00122c19d9adc0db6ae9961a8625291119f0cf7486
-helm_binary_checksum: 8be78ce2e7928103341123201455fb265724f957b1775558391aeccd5c49352d
+helm_binary_checksum: 4f15f75cd2dc46c13359968d2078ac3df14d431607a6798743d6feb462f4b9a3
 
 # Containers
 # In some cases, we need a way to set --registry-mirror or --insecure-registry for docker,
@@ -349,7 +349,7 @@ test_image_repo: "{{ docker_image_repo }}library/busybox"
 test_image_tag: latest
 busybox_image_repo: "{{ docker_image_repo }}library/busybox"
 busybox_image_tag: 1.29.2
-helm_version: "v2.16.1"
+helm_version: "v2.14.3"
 helm_image_repo: "{{ docker_image_repo }}lachlanevenson/k8s-helm"
 helm_image_tag: "{{ helm_version }}"
 tiller_image_repo: "{{ gcr_image_repo }}/kubernetes-helm/tiller"
