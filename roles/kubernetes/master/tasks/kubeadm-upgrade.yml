@@ -1,4 +1,9 @@
 ---
+- name: Master | get coredns configmap
+  shell: >
+    {{ bin_dir }}/kubectl get cm -n kube-system coredns -o json > /tmp/coredns-cm-{{ kube_version }}.json
+  when: inventory_hostname == groups['kube-master']|first
+
 - name: Master | reload systemd
   systemd:
     daemon_reload: true
@@ -12,11 +17,6 @@
 
 - wait_for:
     timeout: 30
-  when: inventory_hostname == groups['kube-master']|first
-
-- name: Master | get coredns configmap
-  shell: >
-    {{ bin_dir }}/kubectl get cm -n kube-system coredns -o json > /tmp/coredns-cm-{{ kube_version }}.json
   when: inventory_hostname == groups['kube-master']|first
 
 - name: kubeadm | Upgrade first master
