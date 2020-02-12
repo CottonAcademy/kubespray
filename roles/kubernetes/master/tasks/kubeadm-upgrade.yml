@@ -11,7 +11,12 @@
   when: inventory_hostname == groups['kube-master']|first
 
 - wait_for:
-    timeout: 10
+    timeout: 30
+  when: inventory_hostname == groups['kube-master']|first
+
+- name: Master | get coredns configmap
+  shell: >
+    {{ bin_dir }}/kubectl get cm -n kube-system coredns -o json > /tmp/coredns-cm-{{ kube_version }}.json
   when: inventory_hostname == groups['kube-master']|first
 
 - name: kubeadm | Upgrade first master
@@ -53,7 +58,7 @@
 
 - name: wait for retry Upgrade
   wait_for:
-    timeout: 15
+    timeout: 30
   when:
     - inventory_hostname == groups['kube-master']|first
     - kubeadm_upgrade.rc != 0 and "field is immutable" not in kubeadm_upgrade.stderr
@@ -96,7 +101,7 @@
   when: inventory_hostname != groups['kube-master']|first
 
 - wait_for:
-    timeout: 10
+    timeout: 30
   when: inventory_hostname != groups['kube-master']|first
 
 - name: kubeadm | Upgrade other masters
@@ -139,7 +144,7 @@
 
 - name: wait for retry Upgrade
   wait_for:
-    timeout: 15
+    timeout: 30
   when:
     - inventory_hostname != groups['kube-master']|first
     - kubeadm_upgrade.rc != 0 and "field is immutable" not in kubeadm_upgrade.stderr
