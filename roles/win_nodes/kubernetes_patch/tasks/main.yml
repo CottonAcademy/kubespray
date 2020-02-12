@@ -18,6 +18,9 @@
     - name: Check current nodeselector for kube-proxy daemonset
       shell: "{{ bin_dir }}/kubectl --kubeconfig {{ kube_config_dir }}/admin.conf get ds kube-proxy --namespace=kube-system -o jsonpath='{.spec.template.spec.nodeSelector.beta.kubernetes.io/os}'"
       register: current_kube_proxy_state
+      retries: 10
+      until: current_kube_proxy_state.rc == 0
+      delay: 30
 
     - name: Apply nodeselector patch for kube-proxy daemonset
       shell: "{{ bin_dir }}/kubectl --kubeconfig {{ kube_config_dir }}/admin.conf patch ds kube-proxy --namespace=kube-system --type=strategic -p \"$(cat nodeselector-os-linux-patch.json)\""

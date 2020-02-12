@@ -58,7 +58,9 @@
   register: install_helm
   changed_when: false
   environment: "{{ proxy_env }}"
-  failed_when: "install_helm.stderr and 'already exists' not in install_helm.stderr"
+  failed_when:
+    - "install_helm.stderr and 'already exists' not in install_helm.stderr"
+    - "install_helm.stderr and 'Warning' not in install_helm.stderr"
 
 # FIXME: https://github.com/helm/helm/issues/4063
 - name: Helm | Force apply tiller overrides if necessary
@@ -83,7 +85,9 @@
     - inventory_hostname == groups['kube-master'][0]
   environment: "{{ proxy_env }}"
   register: install_helm_force
-  failed_when: "install_helm_force.stderr and 'already exists' not in install_helm_force.stderr"
+  failed_when:
+    - "install_helm_force.stderr and 'already exists' not in install_helm_force.stderr"
+    - "install_helm_force.stderr and 'Warning' not in install_helm_force.stderr"
 
 - name: Make sure bash_completion.d folder exists
   file:
