@@ -172,3 +172,6 @@
     - '"field is immutable" not in kubeadm_upgrade_retry.stderr'
     - kubeadm_upgrade_retry.stdout_lines | length > 1
   notify: Master | restart kubelet
+
+- wait_for:
+    timeout: 30
