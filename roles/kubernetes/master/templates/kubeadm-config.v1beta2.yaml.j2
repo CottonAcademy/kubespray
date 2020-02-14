@@ -236,6 +236,7 @@ controllerManager:
     node-monitor-period: {{ kube_controller_node_monitor_period }}
     pod-eviction-timeout: {{ kube_controller_pod_eviction_timeout }}
     node-cidr-mask-size: "{{ kube_network_node_prefix }}"
+    experimental-cluster-signing-duration: 87600h
     profiling: "{{ kube_profiling }}"
     terminated-pod-gc-threshold: "{{ kube_controller_terminated_pod_gc_threshold }}"
     bind-address: {{ kube_controller_manager_bind_address }}
