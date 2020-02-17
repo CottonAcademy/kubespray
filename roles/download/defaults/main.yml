@@ -229,6 +229,9 @@ kubeadm_checksums:
     v1.14.2: 77510f61352bb6e537e70730b670627963f2c314fbd36a644b0c435b97e9705a
     v1.14.1: c4fc478572b5623857f5d820e1c107ae02049ca02cf2993e512a091a0196957b
     v1.14.0: 03678f49ee4737f8b8c4f59ace0d140a36ffbc4f6035c59561f59f45b57d0c93
+kubectl_checksums:
+  amd64:
+    v1.17.3: ae8627adb1f0ae7bdb82ffd74a579953b8acdcd4b94aeefc7569078c3d7994c6
 
 etcd_binary_checksums:
   # Etcd does not have arm32 builds at the moment, having some dummy value is
@@ -261,6 +264,7 @@ etcd_binary_checksum: "{{ etcd_binary_checksums[image_arch] }}"
 cni_binary_checksum: "{{ cni_binary_checksums[image_arch] }}"
 hyperkube_binary_checksum: "{{ hyperkube_checksums[image_arch][kube_version] }}"
 kubeadm_binary_checksum: "{{ kubeadm_checksums[image_arch][kubeadm_version] }}"
+kubectl_binary_checksum: "{{ kubectl_checksums[image_arch][kube_version] }}"
 calicoctl_binary_checksum: "{{ calicoctl_binary_checksums[image_arch][calico_ctl_version] }}"
 crictl_binary_checksum: "{{ crictl_checksums[image_arch][crictl_version] }}"
 istioctl_binary_checksum: ede2905baf31ddbb9e0cce00122c19d9adc0db6ae9961a8625291119f0cf7486
