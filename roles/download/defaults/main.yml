@@ -234,7 +234,7 @@ kubectl_checksums:
     v1.17.3: ae8627adb1f0ae7bdb82ffd74a579953b8acdcd4b94aeefc7569078c3d7994c6
     v1.16.7: c31ca51b526489cd929be71fc1dc9c3cc24b6df5641b3505b467bac51862047d
     v1.15.5: be84cf088241f29eca6221430f8fdb3788bc80eccb79b839d721c0daa6b46244
-    v1.14.8: ae8627adb1f0ae7bdb82ffd74a579953b8acdcd4b94aeefc7569078c3d7994c6
+    v1.14.8: 85548a113564f34e5e60253f8b1616eed0e8c171a6869668beb93d1f97fbea8e
 
 etcd_binary_checksums:
   # Etcd does not have arm32 builds at the moment, having some dummy value is
