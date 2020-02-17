@@ -458,7 +458,7 @@ downloads:
     file: true
     version: "{{ kubeadm_version }}"
     dest: "{{ local_release_dir }}/kubectl-{{ kubeadm_version }}-{{ image_arch }}"
-    sha256: "{{ kubeadm_binary_checksum | default(None) }}"
+    sha256: "{{ kubectl_binary_checksum | default(None) }}"
     url: "{{ kubectl_download_url }}"
     unarchive: false
     owner: "root"
