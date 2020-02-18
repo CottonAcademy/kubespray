@@ -112,6 +112,7 @@ istio_version: 1.3.3
 kubeadm_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
 hyperkube_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/hyperkube"
 kubectl_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubectl"
+kubelet_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubelet"
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
 cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
 helm_download_url: "https://kubernetes-helm.pek3b.qingstor.com/linux-amd64/{{ helm_version }}/helm"
@@ -236,6 +237,13 @@ kubectl_checksums:
     v1.15.5: be84cf088241f29eca6221430f8fdb3788bc80eccb79b839d721c0daa6b46244
     v1.14.8: 85548a113564f34e5e60253f8b1616eed0e8c171a6869668beb93d1f97fbea8e
 
+kubelet_checksums:
+  amd64:
+    v1.17.3: a5c2349c61771f8bf9f80feb174f7e9d9a6c9e79559758ea538ed3dead07bdcb
+    v1.16.7: f49755b06848914c2729353d3580199a70ec8d732609660e90214b4f48ff4398
+    v1.15.5: de590308448a62982aa6209b52da6de69ee4855e449e5508c288c8d12d074ec5
+    v1.14.8: 8d8c5710035ffaa20c75244e4ee53fadd4929f88e733aaa8cd363b2fb0541202
+
 etcd_binary_checksums:
   # Etcd does not have arm32 builds at the moment, having some dummy value is
   # required to avoid "no attribute" error
@@ -268,6 +276,7 @@ cni_binary_checksum: "{{ cni_binary_checksums[image_arch] }}"
 hyperkube_binary_checksum: "{{ hyperkube_checksums[image_arch][kube_version] }}"
 kubeadm_binary_checksum: "{{ kubeadm_checksums[image_arch][kubeadm_version] }}"
 kubectl_binary_checksum: "{{ kubectl_checksums[image_arch][kube_version] }}"
+kubelet_binary_checksum: "{{ kubelet_checksums[image_arch][kube_version] }}"
 calicoctl_binary_checksum: "{{ calicoctl_binary_checksums[image_arch][calico_ctl_version] }}"
 crictl_binary_checksum: "{{ crictl_checksums[image_arch][crictl_version] }}"
 istioctl_binary_checksum: ede2905baf31ddbb9e0cce00122c19d9adc0db6ae9961a8625291119f0cf7486
@@ -482,13 +491,13 @@ downloads:
     groups:
       - k8s-cluster
 
-  hyperkube_file:
+  kubectl_file:
     enabled: true
     file: true
     version: "{{ kube_version }}"
-    dest: "{{ local_release_dir }}/hyperkube-{{ kube_version }}-{{ image_arch }}"
-    sha256: "{{ hyperkube_binary_checksum }}"
-    url: "{{ hyperkube_download_url }}"
+    dest: "{{ local_release_dir }}/kubelet-{{ kube_version }}-{{ image_arch }}"
+    sha256: "{{ kubelet_binary_checksum }}"
+    url: "{{ kubelet_download_url }}"
     unarchive: false
     owner: "root"
     mode: "0755"
