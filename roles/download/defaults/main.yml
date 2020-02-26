@@ -109,16 +109,16 @@ multus_version: "v3.2.1"
 crictl_version: "v1.15.0"
 istio_version: 1.3.3
 # Download URLs
-kubeadm_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubeadm"
-hyperkube_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/hyperkube"
-kubectl_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubectl"
-kubelet_download_url: "https://kubernetes-release.pek3b.qingstor.com/release/{{ kubeadm_version }}/bin/linux/{{ image_arch }}/kubelet"
+kubeadm_download_url:  "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/{{ kubeadm_version }}/kubeadm"
+hyperkube_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/{{ kubeadm_version }}/hyperkube"
+kubectl_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/{{ kubeadm_version }}/kubectl"
+kubelet_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/{{ kubeadm_version }}/kubelet"
 etcd_download_url: "https://github.com/coreos/etcd/releases/download/{{ etcd_version }}/etcd-{{ etcd_version }}-linux-{{ image_arch }}.tar.gz"
-cni_download_url: "https://containernetworking.pek3b.qingstor.com/plugins/releases/download/{{ cni_version }}/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
-helm_download_url: "https://kubernetes-helm.pek3b.qingstor.com/linux-amd64/{{ helm_version }}/helm"
-istioctl_download_url: "https://kubernetes-istio.pek3b.qingstor.com/{{ istio_version }}/bin/istioctl"
+cni_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/cni-plugins-linux-{{ image_arch }}-{{ cni_version }}.tgz"
+helm_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/helm"
+istioctl_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/istioctl"
 crictl_download_url: "https://github.com/kubernetes-sigs/cri-tools/releases/download/{{ crictl_version }}/crictl-{{ crictl_version }}-{{ ansible_system | lower }}-{{ image_arch }}.tar.gz"
-calicoctl_download_url: "https://projectcalico.pek3b.qingstor.com/calicoctl/releases/download/{{ calico_ctl_version }}/calicoctl-linux-{{ image_arch }}"
+calicoctl_download_url: "http://{{ registry_ip }}:{{ pkg_download_port }}/k8s_repo/iso/calicoctl-linux-{{ image_arch }}"
 
 # Checksums
 
@@ -855,14 +855,14 @@ downloads:
     groups:
       - kube-node
 
-  metrics_server:
-    enabled: "{{ metrics_server_enabled }}"
-    container: true
-    repo: "{{ metrics_server_image_repo }}"
-    tag: "{{ metrics_server_image_tag }}"
-    sha256: "{{ metrics_server_digest_checksum|default(None) }}"
-    groups:
-      - kube-master
+#  metrics_server:
+#    enabled: "{{ metrics_server_enabled }}"
+#    container: true
+#    repo: "{{ metrics_server_image_repo }}"
+#    tag: "{{ metrics_server_image_tag }}"
+#    sha256: "{{ metrics_server_digest_checksum|default(None) }}"
+#    groups:
+#      - kube-master
 
   addon_resizer:
     # Currently addon_resizer is only used by metrics server

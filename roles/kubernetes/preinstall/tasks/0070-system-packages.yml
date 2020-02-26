@@ -31,16 +31,16 @@
   tags:
     - bootstrap-os
 
-- name: Install epel-release on RedHat/CentOS
-  yum:
-    name: epel-release
-    state: present
-  when:
-    - ansible_distribution in ["CentOS","RedHat"]
-    - not is_atomic
-    - epel_enabled|bool
-  tags:
-    - bootstrap-os
+#- name: Install epel-release on RedHat/CentOS
+#  yum:
+#    name: epel-release
+#    state: present
+#  when:
+#    - ansible_distribution in ["CentOS","RedHat"]
+#    - not is_atomic
+#    - epel_enabled|bool
+#  tags:
+#    - bootstrap-os
 
 - name: Update common_required_pkgs with ipvsadm when kube_proxy_mode is ipvs
   set_fact:
@@ -52,13 +52,32 @@
     module: "{{ ansible_pkg_mgr }}"
     name: "{{ required_pkgs | default([]) | union(common_required_pkgs|default([])) }}"
     state: latest
+    skip_broken: yes
   register: pkgs_task_result
   until: pkgs_task_result is succeeded
   retries: 4
   delay: "{{ retry_stagger | random + 3 }}"
-  when: not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic)
+  when:
+    - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic)
+    - ansible_distribution in ["CentOS","RedHat"]
   tags:
     - bootstrap-os
+
+- name: Install packages requirements
+  action:
+    module: "{{ ansible_pkg_mgr }}"
+    name: "{{ required_pkgs | default([]) | union(common_required_pkgs|default([])) }}"
+    state: latest
+  register: pkgs_task_result
+  until: pkgs_task_result is succeeded
+  retries: 4
+  delay: "{{ retry_stagger | random + 3 }}"
+  when:
+    - not (ansible_os_family in ["CoreOS", "Container Linux by CoreOS", "ClearLinux"] or is_atomic)
+    - ansible_os_family == "Debian"
+  tags:
+    - bootstrap-os
+
 
 - name: Install ipvsadm for ClearLinux
   swupd:
