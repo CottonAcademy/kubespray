@@ -119,9 +119,14 @@
     - not docker_check.stat.exists
 
 - name: Configure docker repository on RedHat/CentOS/Oracle Linux
-  template:
-    src: "rh_docker.repo.j2"
-    dest: "{{ yum_repo_dir }}/docker.repo"
+  yum_repository:
+    name: docker-ce
+    baseurl: "{{ docker_rh_repo_base_url }}"
+    description: "Docker CE Stable - $basearch"
+    gpgcheck: yes
+    gpgkey: "{{ docker_rh_repo_gpgkey }}"
+    keepcache: "{{ docker_rpm_keepcache | default('1') }}"
+    proxy: " {{ http_proxy | default('_none_') }}"
   when: 
     - ansible_distribution in ["CentOS","RedHat","OracleLinux"] and not is_atomic
     - not docker_check.stat.exists
