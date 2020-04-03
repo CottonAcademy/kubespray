@@ -60,7 +60,7 @@ gcr_image_repo: >-
   {%- else -%}
   gcr.azk8s.cn
   {%- endif %}
-kube_image_repo: "{{ gcr_image_repo }}/google-containers"
+kube_image_repo: "{{ docker_image_repo }}kubesphere"
 
 # docker image repo define
 # docker_image_repo: "docker.io"
