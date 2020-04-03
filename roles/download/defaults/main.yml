@@ -290,11 +290,11 @@ helm_binary_checksum: 4f15f75cd2dc46c13359968d2078ac3df14d431607a6798743d6feb462
 # You need to deploy kubernetes cluster on local private development.
 # Also provide the address of your own private registry.
 # And use --insecure-registry options for docker
-etcd_image_repo: "{{ quay_image_repo }}/coreos/etcd"
+etcd_image_repo: "{{ docker_image_repo }}kubesphere/etcd"
 etcd_image_tag: "{{ etcd_version }}{%- if image_arch != 'amd64' -%}-{{ image_arch }}{%- endif -%}"
-flannel_image_repo: "{{ quay_image_repo }}/coreos/flannel"
+flannel_image_repo: "{{ docker_image_repo }}kubesphere/flannel"
 flannel_image_tag: "{{ flannel_version }}"
-flannel_cni_image_repo: "{{ quay_image_repo }}/coreos/flannel-cni"
+flannel_cni_image_repo: "{{ docker_image_repo }}kubesphere/flannel-cni"
 flannel_cni_image_tag: "{{ flannel_cni_version }}"
 calico_node_image_repo: "{{ docker_image_repo }}calico/node"
 calico_node_image_tag: "{{ calico_version }}"
@@ -306,7 +306,7 @@ calico_rr_image_repo: "{{ docker_image_repo }}calico/routereflector"
 calico_rr_image_tag: "{{ calico_rr_version }}"
 calico_typha_image_repo: "{{ docker_image_repo }}calico/typha"
 calico_typha_image_tag: "{{ calico_typha_version }}"
-hyperkube_image_repo: "{{ kube_image_repo }}/hyperkube"
+hyperkube_image_repo: "{{ docker_image_repo }}kubesphere/hyperkube"
 hyperkube_image_tag: "{{ kube_version }}"
 pod_infra_image_repo: "{{ docker_image_repo }}mirrorgooglecontainers/pause-{{ image_arch }}"
 pod_infra_image_tag: "{{ pod_infra_version }}"
@@ -360,7 +360,7 @@ coredns_image_repo: "{{ docker_image_repo }}coredns/coredns"
 coredns_image_tag: "{{ coredns_version }}"
 
 nodelocaldns_version: "1.15.5"
-nodelocaldns_image_repo: "{{ kube_image_repo }}/k8s-dns-node-cache"
+nodelocaldns_image_repo: "{{ docker_image_repo }}kubesphere/k8s-dns-node-cache"
 nodelocaldns_image_tag: "{{ nodelocaldns_version }}"
 
 dnsautoscaler_version: 1.6.0
@@ -373,7 +373,7 @@ busybox_image_tag: 1.29.2
 helm_version: "v2.14.3"
 helm_image_repo: "{{ docker_image_repo }}lachlanevenson/k8s-helm"
 helm_image_tag: "{{ helm_version }}"
-tiller_image_repo: "{{ gcr_image_repo }}/kubernetes-helm/tiller"
+tiller_image_repo: "{{ docker_image_repo }}kubesphere/tiller"
 tiller_image_tag: "{{ helm_version }}"
 
 registry_image_repo: "{{ docker_image_repo }}library/registry"
@@ -391,7 +391,7 @@ rbd_provisioner_image_repo: "{{ quay_image_repo }}/external_storage/rbd-provisio
 rbd_provisioner_image_tag: "v2.1.1-k8s1.11"
 local_path_provisioner_image_repo: "{{ docker_image_repo }}rancher/local-path-provisioner"
 local_path_provisioner_image_tag: "v0.0.2"
-ingress_nginx_controller_image_repo: "{{ quay_image_repo }}/kubernetes-ingress-controller/nginx-ingress-controller"
+ingress_nginx_controller_image_repo: "{{ docker_image_repo }}kubesphere/nginx-ingress-controller"
 ingress_nginx_controller_image_tag: "0.25.1"
 cert_manager_version: "v0.5.2"
 cert_manager_controller_image_repo: "{{ quay_image_repo }}/jetstack/cert-manager-controller"
