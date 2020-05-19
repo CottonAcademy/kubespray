@@ -11,9 +11,21 @@ docker_versioned_pkg:
   'stable': docker-ce=5:18.09.7~3-0~ubuntu-{{ ansible_distribution_release|lower }}
   'edge': docker-ce=5:18.09.7~3-0~ubuntu-{{ ansible_distribution_release|lower }}
 
+docker_cli_versioned_pkg:
+  'latest': docker-ce-cli
+  '17.09': docker-ce-cli=17.09.1~ce-0~ubuntu
+  '17.12': docker-ce-cli=17.12.1~ce-0~ubuntu-{{ ansible_distribution_release|lower }}
+  '18.06': docker-ce-cli=18.06.2~ce~3-0~ubuntu
+  '18.09': docker-ce-cli=5:18.09.7~3-0~ubuntu-{{ ansible_distribution_release|lower }}
+  'stable': docker-ce-cli=5:18.09.7~3-0~ubuntu-{{ ansible_distribution_release|lower }}
+  'edge': docker-ce-cli=5:18.09.7~3-0~ubuntu-{{ ansible_distribution_release|lower }}
+
+
 docker_package_info:
   pkg_mgr: apt
   pkgs:
+    - name: "{{ docker_cli_versioned_pkg[docker_version | string] }}"
+      force: yes
     - name: "{{ docker_versioned_pkg[docker_version | string] }}"
       force: yes
 
